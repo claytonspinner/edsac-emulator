@@ -6,12 +6,13 @@ CFLAGS   = `$(SDL_ROOT_DIR)/bin/sdl2-config --cflags` \
 CXXFLAGS = `$(SDL_ROOT_DIR)/bin/sdl2-config --cflags` \
            -Wall -Wextra
 LDFLAGS  = `$(SDL_ROOT_DIR)/bin/sdl2-config --libs` \
-           #-lSDL2_image -lSDL2_ttf -lSDL2_mixer -lSDL2_gfx \
+           -lSDL2_image \
+           #-lSDL2_ttf -lSDL2_mixer -lSDL2_gfx \
            -static-libgcc -static-libstdc++
 
 # Compilers
 CC  = /usr/bin/i686-w64-mingw32-gcc
-#CXX = /usr/bin/x86_64-w64-mingw32-g++
+CXX = /usr/bin/i686-w64-mingw32-g++
 
 # Your program name and object files
 EXE     = game.exe
@@ -26,13 +27,13 @@ all: $(EXE)
 $(EXE): $(OBJECTS)
 	# Linking...
 	#$(CXX) $(OBJECTS) -o $(EXE) $(LDFLAGS)
-	$(CC) $(OBJECTS) -o $(EXE) $(LDFLAGS)
+	$(CXX) $(OBJECTS) -o $(EXE) $(LDFLAGS)
  
 # Compiling all `.cpp` sources
 src/%.o: src/%.cpp
 	# Compiling $<...
 	#$(CXX) $(CFLAGS) $(INCLUDE) $< -c -o $@
-	$(CC) $(CFLAGS) $(INCLUDE) $< -c -o $@
+	$(CXX) $(CXXFLAGS) $(INCLUDE) $< -c -o $@
  
 # Compiling all `.c` sources
 src/%.o: src/%.c

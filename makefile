@@ -1,11 +1,11 @@
 #OBJS specifies which files to compile as part of the project
 OBJS = main.c
 
-CC = g++
+CC = gcc
 
 #COMPILER_FLAGS = -w
 
-LINKER_FLAGS = -lSDL2
+LINKER_FLAGS = -lSDL2 -lSDL2_image
 
 OBJ_NAME = edsac-emulator
 
