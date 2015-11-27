@@ -12,7 +12,7 @@ bool init();
 
 bool loadMedia();
 
-void close();
+void destroy();
 
 SDL_Window* gWindow = NULL;
 SDL_Surface* gSurface = NULL;
