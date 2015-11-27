@@ -3,7 +3,7 @@ OBJS = main.c
 
 CC = gcc
 
-#COMPILER_FLAGS = -w
+COMPILER_FLAGS = -w -g -Wall -Wextra
 
 LINKER_FLAGS = -lSDL2 -lSDL2_image
 

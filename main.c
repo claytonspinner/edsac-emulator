@@ -32,7 +32,7 @@ int main( int argc, char* args[] )
 			SDL_Delay( 2000 );
 		}
 	}
-	close();
+	destroy();
 	return 0;
 }
 
@@ -77,9 +77,13 @@ bool loadMedia() {
 	return success;
 }
 
-void close() {
+// Dont name this close() - http://cboard.cprogramming.com/game-programming/162620-sdl-code-generating-segmentation-fault.html
+void destroy() {
 	SDL_FreeSurface( gHelloWorld );
 	gHelloWorld = NULL;
+
+	SDL_FreeSurface( gSurface );
+	gSurface = NULL;
 
 	SDL_DestroyWindow( gWindow );
 	gWindow = NULL;
