@@ -38,7 +38,7 @@ edsac-emulator
 
 # Images
 *.jpg
-
+*.bmp
 
 # Clion files
 .idea/

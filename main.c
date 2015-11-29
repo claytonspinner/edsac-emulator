@@ -63,11 +63,13 @@ bool init() {
 
 bool loadMedia() {
     bool success = true;
+    SDL_Surface* helloWorld = NULL;
 
     SDL_RWops *rwop;
-    rwop = SDL_RWFromFile( "test_image.jpg", "rb" );
+    rwop = SDL_RWFromFile( "02-EX1.bmp", "rb" );
 
-    gHelloWorld = IMG_LoadJPG_RW( rwop );
+    gHelloWorld = IMG_LoadBMP_RW( rwop );
+    //helloWorld = IMG_LoadJPG_RW( rwop );
     if ( gHelloWorld == NULL ) {
         printf( "Unable to load image %s! SDL Error: %s\n", "test_image.jpg", SDL_GetError() );
         success = false;
