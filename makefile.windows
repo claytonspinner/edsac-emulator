@@ -1,5 +1,5 @@
 # Where your MinGW SDL is installed
-SDL_ROOT_DIR = /usr/i686-w64-mingw32/sys-root/mingw
+SDL_ROOT_DIR = /usr/x86_64-w64-mingw32
 
 CFLAGS   = `$(SDL_ROOT_DIR)/bin/sdl2-config --cflags` \
            -Wall -Wextra
@@ -11,31 +11,30 @@ LDFLAGS  = `$(SDL_ROOT_DIR)/bin/sdl2-config --libs` \
            -static-libgcc -static-libstdc++
 
 # Compilers
-CC  = /usr/bin/i686-w64-mingw32-gcc
-CXX = /usr/bin/i686-w64-mingw32-g++
+CC  = /usr/bin/x86_64-w64-mingw32-gcc
+CXX = /usr/bin/x86_64-w64-mingw32-g++
 
 # Your program name and object files
 EXE     = game.exe
-OBJECTS = main.o
+OBJECTS = main.o \
+          fileutils.o
 
 # No need to edit anything from here below
  
 all: $(EXE)
 	# Everything ready!
- 
+
 # Linking everything to the executable
 $(EXE): $(OBJECTS)
 	# Linking...
-	#$(CXX) $(OBJECTS) -o $(EXE) $(LDFLAGS)
 	$(CXX) $(OBJECTS) -o $(EXE) $(LDFLAGS)
- 
+
 # Compiling all `.cpp` sources
-src/%.o: src/%.cpp
+%.o: %.cpp
 	# Compiling $<...
-	#$(CXX) $(CFLAGS) $(INCLUDE) $< -c -o $@
 	$(CXX) $(CXXFLAGS) $(INCLUDE) $< -c -o $@
  
 # Compiling all `.c` sources
-src/%.o: src/%.c
+%.o: %.c
 	# Compiling $<...
 	$(CC) $(CFLAGS) $(INCLUDE) $< -c -o $@

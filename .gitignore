@@ -38,3 +38,12 @@ edsac-emulator
 
 # Images
 *.jpg
+
+
+# Clion files
+.idea/
+
+
+
+# Scripts
+windows.sh

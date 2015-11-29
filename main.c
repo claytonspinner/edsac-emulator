@@ -1,18 +1,4 @@
-//Using SDL and standard IO
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
-#include <stdio.h>
-#include <stdbool.h>
-
-//Screen dimension constants
-const int SCREEN_WIDTH = 640;
-const int SCREEN_HEIGHT = 480;
-
-bool init();
-
-bool loadMedia();
-
-void destroy();
+#include "main.h"
 
 SDL_Window* gWindow = NULL;
 SDL_Surface* gSurface = NULL;
@@ -20,6 +6,9 @@ SDL_Surface* gHelloWorld = NULL;
 
 int main( int argc, char* args[] )
 {
+	char arr[10] = {0};\
+    int i = 0;
+
 	if ( !init() ) {
 		printf( "Failed to initialize!\n" );
 	}
@@ -32,6 +21,13 @@ int main( int argc, char* args[] )
 			SDL_Delay( 2000 );
 		}
 	}
+	loadCharArrayFromFile("test_program.txt", arr);
+
+    for (i; i < 10; i++) {
+        printf(arr[i]);
+        printf("\n");
+    }
+
 	destroy();
 	return 0;
 }
@@ -71,13 +67,13 @@ bool loadMedia() {
 
 	gHelloWorld = IMG_LoadJPG_RW( rwop );
 	if ( gHelloWorld == NULL ) {
-		printf( "Unable to load image %s! SDL Error: %s\n", "test.bmp", SDL_GetError() );
+		printf( "Unable to load image %s! SDL Error: %s\n", "test_image.jpg", SDL_GetError() );
 		success = false;
 	}
 	return success;
 }
 
-// Dont name this close() - http://cboard.cprogramming.com/game-programming/162620-sdl-code-generating-segmentation-fault.html
+// Don't name this close() - http://cboard.cprogramming.com/game-programming/162620-sdl-code-generating-segmentation-fault.html
 void destroy() {
 	SDL_FreeSurface( gHelloWorld );
 	gHelloWorld = NULL;

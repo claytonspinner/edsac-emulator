@@ -1,11 +1,16 @@
 #OBJS specifies which files to compile as part of the project
-OBJS = main.c
+
+SDL_ROOT_DIR = /usr/local
+
+OBJS = main.c fileutils.c
 
 CC = gcc
 
-COMPILER_FLAGS = -w -g -Wall -Wextra
+COMPILER_FLAGS = `$(SDL_ROOT_DIR)/bin/sdl2-config --cflags` \
+                 -w -g -Wall -Wextra
 
-LINKER_FLAGS = -lSDL2 -lSDL2_image
+LINKER_FLAGS = `$(SDL_ROOT_DIR)/bin/sdl2-config --libs` \
+               -lSDL2 -lSDL2_image
 
 OBJ_NAME = edsac-emulator
 
