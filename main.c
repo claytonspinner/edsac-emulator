@@ -29,6 +29,8 @@ int main( int argc, char* args[] )
     strcpy(str, arr);
     printf(str);
     printf("\n");
+    printf("unsigned int: %d\n",sizeof(unsigned int));
+    printf("long double: %d\n",sizeof(long double));
 
     destroy();
     return 0;

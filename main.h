@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include "fileutils.h"
+#include "cpu.h"
 
 //Screen dimension constants
 const int SCREEN_WIDTH = 640;
