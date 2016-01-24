@@ -35,6 +35,6 @@ $(EXE): $(OBJECTS)
 	$(CXX) $(CXXFLAGS) $(INCLUDE) $< -c -o $@
  
 # Compiling all `.c` sources
-%.o: %.c
+%.o: src/main/%.c
 	# Compiling $<...
 	$(CC) $(CFLAGS) $(INCLUDE) $< -c -o $@

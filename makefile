@@ -2,7 +2,7 @@
 
 SDL_ROOT_DIR = /usr/local
 
-OBJS = main.c fileutils.c
+OBJS = src/main/*.c
 
 CC = gcc
 
