@@ -26,7 +26,7 @@ struct Cpu {
     long double accumulator;
 } Cpu;
 
-int step(char opCode, int value);
+int step(struct *Cpu cpu, char opCode, int value);
 
 // Control instructions
 

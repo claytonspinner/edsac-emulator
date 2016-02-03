@@ -1,6 +1,6 @@
 #include "cpu.h"
 
-int step(char opCode, int value) {
+int step(struct *Cpu cpu, char opCode, int value) {
     switch(opCode) {
         // Addition: add number in memory location {value} to accumulator
         case 'A':
