@@ -4,7 +4,7 @@
 
 struct Cpu {
     // Each entry maps to an 18-bit word of the EDSAC memory
-    unsigned int  memory[1024];
+    unsigned int memory[1024];
     
     // Sequence Control Register (Program Counter)
     // Limit: 1024
@@ -26,15 +26,36 @@ struct Cpu {
     long double accumulator;
 } Cpu;
 
-int step(struct *Cpu cpu, char opCode, int value);
+int step(struct Cpu *cpu);
 
 // Control instructions
+
+// A
+long double add(long double accumulator, unsigned int address);
+
+// S
+long double subtract(long double accumulator, unsigned int address);
+
+// V
+long double multiplyAdd(signed long multiplier, unsigned int address);
+
+// N
+long double multiplySubtract(signed long multiplier, unsigned int address);
 
 // T
 unsigned int transferClear(unsigned int address);
 
 // U
 unsigned int transfer(unsigned int address);
+
+// C
+long double logicalAnd(signed long multiplier, unsigned int address);
+
+// R
+long double shiftRight(long double accumulator);
+
+// L
+long double shiftLeft(long double accumulator);
 
 // E
 unsigned int jumpPositive(long double accumulator);
@@ -53,6 +74,9 @@ void readLast(unsigned int something);
 
 // X
 void noOp(void);
+
+// Y
+long double round(long double accumulator);
 
 // Z
 void stop(void);

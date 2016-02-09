@@ -1,99 +1,48 @@
 #include "main.h"
 
-SDL_Window* gWindow = NULL;
-SDL_Surface* gSurface = NULL;
-SDL_Surface* gHelloWorld = NULL;
-
-int main( int argc, char* args[] )
+int main( int argc, char* argv[] )
 {
-    struct Cpu cpu = { { 0 }, 0, 0, 0, 0, 0};
+    struct Cpu cpu;
+    memset(&cpu, 0, sizeof(cpu));
+    load(&cpu, argc > 1 ? argv[1] : "out.hex");
 
-    printf("Before Engine");
-    engine(cpu, TICKS);
-
-    if (argc || args) {
-
+    dumpheader();
+    for (;;) {
+//        dumpstate(&cpu);
+        step(&cpu);
     }
-    char str[10] = {0};
-    char arr[10] = {0};
-
-    if ( !init() ) {
-        printf( "Failed to initialize!\n" );
-    }
-    else {
-        if ( !loadMedia() ) {
-            printf( "Failed to load media!\n" );
-        } else {
-            SDL_BlitSurface( gHelloWorld, NULL, gSurface, NULL );
-            SDL_UpdateWindowSurface( gWindow );
-            SDL_Delay( 2000 );
-        }
-    }
-    loadCharArrayFromFile("test_program.txt", arr);
-
-    strcpy(str, arr);
-    printf(str);
-    printf("\n");
-    printf("unsigned int: %d\n",sizeof(unsigned int));
-    printf("long double: %d\n",sizeof(long double));
-
-    destroy();
     return 0;
 }
 
-bool init() {
-    bool success = true;
-
-    //Initialize SDL
-    if( SDL_Init( SDL_INIT_VIDEO ) < 0 )
-    {
-        printf( "SDL could not initialize! SDL_Error: %s\n", SDL_GetError() );\
-		success = false;
+void load(struct Cpu *cpu, const char *fileName) {
+    FILE *filePointer;
+    char buffer[128];
+    uint16_t n = 0;
+    if (!(filePointer = fopen(fileName, "r"))) {
+        fprintf(stderr, "cannot open: %s\n", fileName);
+        exit(1);
     }
-    else
-    {
-        //Create window
-        gWindow = SDL_CreateWindow( "SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
-        if( gWindow == NULL )
-        {
-            printf( "Window could not be created! SDL_Error: %s\n", SDL_GetError() );
-            success = false;
-        }
-        else
-        {
-            //Get window surface
-            gSurface = SDL_GetWindowSurface( gWindow );
-        }
+    while (!feof(filePointer) && fgets(buffer, 128, filePointer)) {
+        if (!isalnum(buffer[0]))
+            continue;
+        cpu->memory[n++] = strtoul(buffer, 0, 16);
     }
-    return success;
+    fprintf(stderr, "< LOADED %d WORDS >\n", n);
+    fclose(filePointer);
 }
 
-bool loadMedia() {
-    bool success = true;
-    SDL_Surface* helloWorld = NULL;
-
-    SDL_RWops *rwop;
-    rwop = SDL_RWFromFile( "src/main/assets/02-EX1.bmp", "rb" );
-
-    gHelloWorld = IMG_LoadBMP_RW( rwop );
-    //helloWorld = IMG_LoadJPG_RW( rwop );
-    if ( gHelloWorld == NULL ) {
-        printf( "Unable to load image %s! SDL Error: %s\n", "02-EX1.bmp", SDL_GetError() );
-        success = false;
-    }
-    return success;
+void dumpheader(void) {
+    fprintf(stderr,
+        "SCR    OT    MPR   MPC   ACC   Instruction\n"
+        "----- ----- ----- ----- ----- -----------\n");
 }
 
-// Don't name this close() - http://cboard.cprogramming.com/game-programming/162620-sdl-code-generating-segmentation-fault.html
-void destroy() {
-    SDL_FreeSurface( gHelloWorld );
-    gHelloWorld = NULL;
-
-    SDL_FreeSurface( gSurface );
-    gSurface = NULL;
-
-    SDL_DestroyWindow( gWindow );
-    gWindow = NULL;
-
-    SDL_Quit();
+void dumpstate(struct Cpu *cpu) {
+    char out[128];
+    disassemble(cpu->memory + cpu->scr, out);
+    fprintf(stderr,
+        "%04x %04x %04x %04x %04x %s\n",
+        cpu->scr, cpu->orderTank,
+        cpu->multiplier, cpu->multiplicand,
+        cpu->accumulator, out);
 }
